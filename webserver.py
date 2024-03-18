@@ -133,7 +133,7 @@ class WebRequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(f'Book Info: {book_info.decode("utf-8")}\n'.encode('utf-8'))
         else:
             self.wfile.write(f"""<h1>No existe libro</h1>
-             <p>  Recomendación: Libro {book_recommend}</p>\n""".encode('utf-8'))
+             <p>  Recomendacion: Libro {book_recommend}</p>\n""".encode('utf-8'))
             
         book_list = r.lrange(f'session:{session_id}', 0, -1)
         for book in book_list:
@@ -148,10 +148,12 @@ class WebRequestHandler(BaseHTTPRequestHandler):
     def recommend_book(self, session_id, book_id):
         r.rpush(session_id, book_id)
         books = r.lrange(session_id, 0, 7)
-        all_books = [str(i+1) for i in range(6)]
+        all_books = set(str(i+1) for i in range(6))
         new = [b for b in all_books if b not in [vb.decode() for vb in books]]
         if new:
             return new[0]
+        else:
+            return random.choice([vb.decode() for vb in books]) 
 
 if __name__ == "__main__":
     print("Server starting...")
