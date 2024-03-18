@@ -51,7 +51,7 @@ class WebRequestHandler(BaseHTTPRequestHandler):# Clase
             response_content += "".join([f"<li>{book}</li>" for book in matching_books])# Se imprimira "El nombre del libro y el link"
             response_content += "</ul>"# CIERRE DE BRINCO
         else:# Sí no se encontro similitudes en los libros entonces:...
-            response_content = "<p>No se encontraron libros que coincidan con la búsqueda.</p>" # Se imprimira esto: "No se encontraron libros que coincidan con la búsqueda
+            response_content = "<p>No se encontraron libros que coincidan con la busqueda.</p>" # Se imprimira esto: "No se encontraron libros que coincidan con la búsqueda
     
         self.wfile.write(response_content.encode('utf-8')) # Esta función imprime lo seleccionado en la página web.
         
@@ -140,7 +140,7 @@ class WebRequestHandler(BaseHTTPRequestHandler):# Clase
             self.wfile.write(f'Book Info: {book_info.decode("utf-8")}\n'.encode('utf-8'))
         else:#Si no, muestra un mensaje indicando que el libro no existe junto con una recomendación de libro alternativo.
             self.wfile.write(f"""<h1>No existe libro</h1>
-             <p>  Recomendacion: Libro {book_recommend}</p>\n""".encode('utf-8'))
+             <p>  Recomendacion: {book_recommend}</p>\n""".encode('utf-8'))
             
         book_list = r.lrange(f'session:{session_id}', 0, -1)# Obtiene la lista de libros consultados recientemente en la sesión del usuario.
         for book in book_list:# Itera sobre book_list y escribe cada libro en el flujo de salida de la respuesta HTTP.
